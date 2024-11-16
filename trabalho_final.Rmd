@@ -1,0 +1,100 @@
+---
+title: "Relatório Estatística Multivarida I"
+author: "Thiago Tavares Lopes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+header-includes:
+   - \usepackage[brazil]{babel}
+   - \usepackage{bm}
+   - \usepackage{float}
+   - \usepackage{multirow}
+geometry: left=2.5cm, right=2.5cm, top=2cm, bottom=2cm
+output:
+  bookdown::pdf_document2:
+    toc: false
+    fig.align: 'center'
+    number_sections: false
+editor_options:
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+---
+```{r setup, include=FALSE}
+options(encoding = "UTF-8")
+options(OutDec = ",")
+options(scipen = 999, digits =5)
+```
+
+
+```{r, include=FALSE}
+
+library(knitr)
+library(kableExtra)
+library(GGally)
+
+
+
+
+```
+
+
+
+```{r include=FALSE}
+
+dados<-na.omit(airquality)
+
+vetor_medias<-colMeans(dados)
+
+media_matrix<-matrix(vetor_medias, ncol = 1)
+rownames(media_matrix)<-names(vetor_medias)
+colnames(media_matrix)<-c("Média")
+
+```
+
+
+
+```{r include=FALSE}
+vetor_cov<-cov(dados)
+
+matrix_cov<-matrix(vetor_cov, ncol=6)
+
+rownames(matrix_cov)<-c("Ozone", "Solar.R", "Wind", "Temp", "Month", "Day")
+colnames(matrix_cov)<-c("Ozone", "Solar.R", "Wind", "Temp", "Month", "Day")
+```
+
+
+```{r echo=FALSE}
+
+# MATRIZ DE MEDIAS
+kable(media_matrix, format = "latex", booktabs = TRUE, caption = "Médias das Variáveis") |> 
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+
+```{r echo=FALSE}
+
+# MATRIZ DE MEDIAS
+kable(matrix_cov, format = "latex", booktabs = TRUE, caption = "") |> 
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+
+
+
+
+```{r echo=FALSE}
+
+# GRAFICO CORRELAÇÃO
+ggcorr(dados, label=TRUE,  palette = "RdBu")
+
+```
+
+
+
+
+
+
+
+
+
