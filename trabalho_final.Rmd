@@ -31,16 +31,35 @@ library(knitr)
 library(kableExtra)
 library(GGally)
 
+```
+
+# Introdução 
+
+O dataset *airquality* é um conjunto de dados embutido no R que contém informações sobre a qualidade do ar em Nova York, medido de maio a setembro de 1973. Ele é comumente usado para análises exploratórias de dados e exemplos em R devido à sua simplicidade e características interessantes, como dados ausentes e variáveis meteorológicas. O *dataset* possui 153 linhas e 6 colunas, suas variáveis são:\par
+- Ozone: Concentração de ozônio na atmosfera (ppb - partes por bilhão).
+- Solar.R: Radiação solar na superfície (lang - unidade de radiação solar).
+- Wind: Velocidade do vento (mph - milhas por hora).
+- Temp: Temperatura máxima diária (graus Fahrenheit).
+- Month: Mês (inteiro de 5 a 9, representando os meses de maio a setembro).
+- Day: Dia do mês (inteiro de 1 a 31). \par
 
 
 
+## Resultados
+
+Nesta seção são apresentados os resultados da análises solicitadas. 
+
+
+A tabela \ref{tab:medias}, apresenta o vetor de médias para cada variável. 
+
+```{r, include=FALSE}
+dados<-na.omit(airquality)
+
+#length(dados)
 ```
 
 
-
 ```{r include=FALSE}
-
-dados<-na.omit(airquality)
 
 vetor_medias<-colMeans(dados)
 
@@ -49,6 +68,19 @@ rownames(media_matrix)<-names(vetor_medias)
 colnames(media_matrix)<-c("Média")
 
 ```
+
+
+
+
+
+```{r echo=FALSE, label="medias", fig.cap="Vetor de Médias"}
+
+# MATRIZ DE MEDIAS
+kable(media_matrix, format = "latex", booktabs = TRUE, caption = "Médias das Variáveis") |> 
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
 
 
 
@@ -62,28 +94,20 @@ colnames(matrix_cov)<-c("Ozone", "Solar.R", "Wind", "Temp", "Month", "Day")
 ```
 
 
-```{r echo=FALSE}
 
-# MATRIZ DE MEDIAS
-kable(media_matrix, format = "latex", booktabs = TRUE, caption = "Médias das Variáveis") |> 
-  kable_styling(latex_options = "HOLD_position")
+A tabela \ref{tab:cov} apresenta os resultados da variância e covariância dos dados. A diagonal principal, mostra os valores das variâncias para cada variável em estudo, sendo **Solar R.** apresenta a maior variância indicando uma maior dispersão. Podemos notar que as variáveis **Ozone** e **Wind** possuem covariância negativa, o que indica uma relação inversa. Uma melhor forma de observar essas relações são expostas na imagem \ref{fig:fig1}. Nota-se que as variáveis **Ozone** e **Temp** possui uma forte correlação positiva, e as variáveis **Temp** e **Wind** possui uma correlação moderada. 
 
-```
+```{r echo=FALSE, label = "cov"}
 
-
-```{r echo=FALSE}
-
-# MATRIZ DE MEDIAS
-kable(matrix_cov, format = "latex", booktabs = TRUE, caption = "") |> 
+# MATRIZ DE COVARIANCIA 
+kable(matrix_cov, format = "latex", booktabs = TRUE, caption = "Tabela Variância e Covariância") |> 
   kable_styling(latex_options = "HOLD_position")
 
 ```
 
 
 
-
-
-```{r echo=FALSE}
+```{r echo=FALSE, fig.cap="Correlação", label = "fig1"}
 
 # GRAFICO CORRELAÇÃO
 ggcorr(dados, label=TRUE,  palette = "RdBu")
@@ -91,7 +115,24 @@ ggcorr(dados, label=TRUE,  palette = "RdBu")
 ```
 
 
+```{r, include=FALSE}
+dist_euclidiana <-dist(t(dados), method = "euclidian")
+dist_euclidiana
 
+mat_euclidiana<-as.matrix(dist_euclidiana, ncol=6)
+
+rownames(mat_euclidiana)<-c("Ozone", "Solar.R", "Wind", "Temp", "Month", "Day")
+colnames(mat_euclidiana)<-c("Ozone", "Solar.R", "Wind", "Temp", "Month", "Day")
+```
+
+```{r echo=FALSE}
+
+
+kable(mat_euclidiana, format = "latex", booktabs = TRUE, caption = "Distância Euclidiana") |> 
+  kable_styling(latex_options = "HOLD_position")
+
+
+```
 
 
 
