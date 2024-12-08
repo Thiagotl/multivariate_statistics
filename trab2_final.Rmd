@@ -56,7 +56,47 @@ T2.test(dif)
 ```
 
 
-Resposta: O valor-p associado ao teste é 0,004194, indicando ques rejeitamos a hipótese nula.
+Resposta: O valor-p associado ao teste é 0,004194, indicando que rejeitamos a hipótese nula.
+
+2) Considere os dados abaixo, coletados para dois grupos independentes (A e B) com relação às variáveis comprimento, peso e volume.
+
+```{r}
+# Dados do Grupo A
+grupo_A <- data.frame(
+  Comprimento = c(13.53, 18.92, 10.91, 13.06, 13.38, 13.87, 13.97),
+  Peso = c(19.22, 17.77, 15.99, 18.7, 18.07, 18.37, 18.46),
+  Volume = c(17.7, 14.72, 11.5, 12.37, 12.32, 12.37, 16.23)
+)
+
+# Dados do Grupo B
+grupo_B <- data.frame(
+  Comprimento = c(12.3, 14.65, 14.18, 16.86, 16.14, 15.77, 18.2),
+  Peso = c(13.21, 15.09, 15.29, 15.51, 13.65, 13.23, 13.56),
+  Volume = c(11.5, 12.91, 16.91, 18.17, 14.94, 15.46, 15.46)
+)
+
+# Cálculo das médias
+media_A <- colMeans(grupo_A)
+media_B <- colMeans(grupo_B)
+media_A
+media_B
+# Matriz de covariância combinada
+n_A <- nrow(grupo_A)
+n_B <- nrow(grupo_B)
+Sp <- ((n_A - 1) * cov(grupo_A) + (n_B - 1) * cov(grupo_B)) / (n_A + n_B - 2)
+Sp
+# Teste T² de Hotelling
+
+resultado_grupos <- T2.test(grupo_A, grupo_B)
+resultado_grupos
+```
+
+Resposta: A média do grupo A: comprimento(13.94857), Peso(18.08286), Volume(13.88714) \par
+Media do grupo B: comprimento(15.44286), Peso(14.22000), Volume(15.05000) \par
+
+como o p-valor foi de 8.402e-05, rejeitamos H0.
+
+
 
 
 
