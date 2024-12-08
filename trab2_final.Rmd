@@ -97,6 +97,47 @@ Media do grupo B: comprimento(15.44286), Peso(14.22000), Volume(15.05000) \par
 como o p-valor foi de 8.402e-05, rejeitamos H0.
 
 
+```{r}
+# Dados
+dados_q3 <- data.frame(
+  Ansiedade = c(42, 38, 44, 40, 37, 39, 43, 39, 41, 41, 42, 39, 43, 44, 37),
+  Cortisol = c(26, 24, 27, 25, 24, 26, 28, 25, 27, 26, 26, 23, 28, 28, 24),
+  Qualidade_Sono = c(6.5, 7.2, 6.8, 7.0, 6.9, 6.4, 7.3, 6.9, 7.4, 7.1, 6.7, 7.0, 6.8, 6.8, 7.6)
+)
 
+# Matriz de correlação
+correlacao <- cor(dados_q3)
+print(correlacao)
+
+# Teste de significância das correlações
+# library(Hmisc)
+# teste_correlacao <- rcorr(as.matrix(dados_q3))
+# print(teste_correlacao)
+# ### Teste de Bartlett para correlação ????
+
+# Hipótese nula: vetor de médias igual a (39, 25, 7.0)
+mu_hipotetico <- c(39, 25, 7.0)
+
+# Teste T² de Hotelling
+
+resultado_q3 <- T2.test(dados_q3, mu = mu_hipotetico)
+print(resultado_q3)
+
+```
+
+
+
+```{r}
+dados_q4 <- data.frame(
+  Variedade = c("A", "B", "C", "D", "A", "B", "C", "D", "A", "B", "C", "D"),
+  Altura_Plantas = c(45.2, 46.5, 47.0, 42.1, 43.0, 42.5, 50.1, 49.8, 51.2, 40.5, 41.0, 40.8),
+  Numero_Frutos = c(15, 14, 16, 12, 13, 17, 18, 16, 10, 10, 9, 8)
+)
+
+# MANOVA
+manova_result <- manova(cbind(Altura_Plantas, Numero_Frutos) ~ Variedade, data = dados_q4)
+summary(manova_result)
+summary.aov(manova_result) # Análise de variância univariada para cada variável
+```
 
 
