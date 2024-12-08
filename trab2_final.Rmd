@@ -1,0 +1,62 @@
+---
+title: "Relatório Estatística Multivarida I"
+author: "Thiago Tavares Lopes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+header-includes:
+   - \usepackage[brazil]{babel}
+   - \usepackage{bm}
+   - \usepackage{float}
+   - \usepackage{multirow}
+geometry: left=2.5cm, right=2.5cm, top=2cm, bottom=2cm
+output:
+  bookdown::pdf_document2:
+    toc: false
+    fig.align: 'center'
+    number_sections: false
+editor_options:
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+---
+```{r setup, include=FALSE}
+options(encoding = "UTF-8")
+options(OutDec = ",")
+options(scipen = 999, digits =5)
+```
+
+
+
+# Atividade 
+
+1) Um novo método de aprendizado foia plicado a 8 alunos de uma escola. Foram obtidas notas antes e depois da aplicação do novo método nas disciplinas de matemática e biologia. Podemos afirmar que houve diferença entre antes de depois? 
+
+```{r}
+
+dados <- data.frame(
+  Individuo = 1:8,
+  Matematica_Antes = c(8.9, 7.5, 7.4, 5.6, 5.0, 6.5, 8.0, 7.5),
+  Biologia_Antes = c(4.4, 4.3, 4.8, 4.3, 4.8, 5.1, 5.3, 5.0),
+  Matematica_Depois = c(8.3, 7.0, 8.4, 7.8, 7.7, 6.2, 7.1, 7.8),
+  Biologia_Depois = c(7.8, 8.7, 8.7, 8.1, 6.6, 6.0, 6.6, 7.8)
+)
+
+# Diferenças (Depois - Antes)
+dif <- dados[, 4:5] - dados[, 2:3]  
+
+#Teste T² de Hotelling
+# library(ICSNP)
+# resultado <- HotellingsT2(dif)
+# resultado
+
+
+library(rrcov)
+
+T2.test(dif)
+
+```
+
+
+Resposta: O valor-p associado ao teste é 0,004194, indicando ques rejeitamos a hipótese nula.
+
+
+
