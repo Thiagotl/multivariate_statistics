@@ -97,6 +97,10 @@ Media do grupo B: comprimento(16,014), Peso(13,073), Volume(15,206) \par
 como o p-valor foi de 0,068 não rejeitamos H0.
 
 
+3) Um teste foi realizado com 15pessoas, em que foram avaliados o nível de Ansiedade, de Cortisol e também o escore da qualidade do sono.
+
+
+
 ```{r}
 # Dados
 dados_q3 <- data.frame(
@@ -110,10 +114,8 @@ correlacao <- cor(dados_q3)
 print(correlacao)
 
 # Teste de significância das correlações
-# library(Hmisc)
-# teste_correlacao <- rcorr(as.matrix(dados_q3))
-# print(teste_correlacao)
-# ### Teste de Bartlett para correlação ????
+library(psych)
+cortest.bartlett(dados_q3)
 
 # Hipótese nula: vetor de médias igual a (39, 25, 7.0)
 mu_hipotetico <- c(39, 25, 7.0)
@@ -125,7 +127,12 @@ print(resultado_q3)
 
 ```
 
+A) Pelo teste de Bartlett o p-valor é menor que 0,05, logo rejeitamos H0 e matriz de correlação é significativamente diferente de uma matriz identidade. Ou seja, há correlação entre as variáveis. 
 
+B) Como o p-valor foi menor que 0.05, rejeitamos H0  e podemos dizer que o vetor de amostras é diferente do valor da população.
+
+
+4) A tabela abaixo apresenta os dados fornecidos, organizados por tratmentos (variedades), altura das plantas e número de frutos. Execute uma análise de variância multivariada para comparar as variedas. 
 
 ```{r}
 dados_q4 <- data.frame(
@@ -137,7 +144,7 @@ dados_q4 <- data.frame(
 # MANOVA
 manova_result <- manova(cbind(Altura_Plantas, Numero_Frutos) ~ Variedade, data = dados_q4)
 summary(manova_result)
-summary.aov(manova_result) # Análise de variância univariada para cada variável
+#summary.aov(manova_result) # Análise de variância univariada para cada variável
 ```
 
-
+O teste da MANOVa indicou que as variedades não tem efeito significativos nas variáveis analisadas
