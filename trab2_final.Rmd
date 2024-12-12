@@ -34,10 +34,10 @@ options(scipen = 999, digits =5)
 
 dados <- data.frame(
   Individuo = 1:8,
-  Matematica_Antes = c(8.9, 7.5, 7.4, 5.6, 5.0, 6.5, 8.0, 7.5),
-  Biologia_Antes = c(4.4, 4.3, 4.8, 4.3, 4.8, 5.1, 5.3, 5.0),
-  Matematica_Depois = c(8.3, 7.0, 8.4, 7.8, 7.7, 6.2, 7.1, 7.8),
-  Biologia_Depois = c(7.8, 8.7, 8.7, 8.1, 6.6, 6.0, 6.6, 7.8)
+  Matematica_Antes = c(8.9, 7.5, 5.6, 5.0, 6.5, 6.0, 6.9, 6.3),
+  Biologia_Antes = c(4.4, 4.3, 7.4, 4.8, 4.8, 5.6, 4.3, 7.0),
+  Matematica_Depois = c(8.3, 7.0, 8.4, 8.7, 7.7, 6.3, 7.1, 9.2),
+  Biologia_Depois = c(7.8, 8.7, 8.7, 8.1, 6.8, 6.0, 6.6, 7.8)
 )
 
 # Diferenças (Depois - Antes)
@@ -56,23 +56,23 @@ T2.test(dif)
 ```
 
 
-Resposta: O valor-p associado ao teste é 0,004194, indicando que rejeitamos a hipótese nula.
+Resposta: O valor-p associado ao teste é 0,0044, indicando que rejeitamos a hipótese nula.
 
 2) Considere os dados abaixo, coletados para dois grupos independentes (A e B) com relação às variáveis comprimento, peso e volume.
 
 ```{r}
 # Dados do Grupo A
 grupo_A <- data.frame(
-  Comprimento = c(13.53, 18.92, 10.91, 13.06, 13.38, 13.87, 13.97),
-  Peso = c(19.22, 17.77, 15.99, 18.7, 18.07, 18.37, 18.46),
-  Volume = c(17.7, 14.72, 11.5, 12.37, 12.32, 12.37, 16.23)
+  Comprimento = c(13.53, 18.92, 10.91, 13.92, 13.38, 12.35, 13.97),
+  Peso = c(19.22, 17.77, 15.99, 11.38, 18.7, 11.7, 18.46),
+  Volume = c(17.7, 14.72, 11.5, 11.32, 12.37, 19.23, 16.23)
 )
 
 # Dados do Grupo B
 grupo_B <- data.frame(
-  Comprimento = c(12.3, 14.65, 14.18, 16.86, 16.14, 15.77, 18.2),
-  Peso = c(13.21, 15.09, 15.29, 15.51, 13.65, 13.23, 13.56),
-  Volume = c(11.5, 12.91, 16.91, 18.17, 14.94, 15.46, 15.46)
+  Comprimento = c(16.3, 14.65, 14.18, 16.86, 16.14, 15.77, 18.2),
+  Peso = c(13.2, 12.81, 15.29, 11.77, 13.65, 11.23, 13.56),
+  Volume = c(11.5, 17.96, 16.91, 11.5, 14.94, 18.17, 15.46)
 )
 
 # Cálculo das médias
@@ -91,18 +91,18 @@ resultado_grupos <- T2.test(grupo_A, grupo_B)
 resultado_grupos
 ```
 
-Resposta: A média do grupo A: comprimento(13.94857), Peso(18.08286), Volume(13.88714) \par
-Media do grupo B: comprimento(15.44286), Peso(14.22000), Volume(15.05000) \par
+Resposta: A média do grupo A: comprimento(13.854), Peso(16,174), Volume(14,724) \par
+Media do grupo B: comprimento(16,014), Peso(13,073), Volume(15,206) \par
 
-como o p-valor foi de 8.402e-05, rejeitamos H0.
+como o p-valor foi de 0,068 não rejeitamos H0.
 
 
 ```{r}
 # Dados
 dados_q3 <- data.frame(
-  Ansiedade = c(42, 38, 44, 40, 37, 39, 43, 39, 41, 41, 42, 39, 43, 44, 37),
-  Cortisol = c(26, 24, 27, 25, 24, 26, 28, 25, 27, 26, 26, 23, 28, 28, 24),
-  Qualidade_Sono = c(6.5, 7.2, 6.8, 7.0, 6.9, 6.4, 7.3, 6.9, 7.4, 7.1, 6.7, 7.0, 6.8, 6.8, 7.6)
+  Ansiedade = c(42, 38, 44, 40, 37, 41, 43, 39, 42, 38, 41, 40, 39, 43, 37),
+  Cortisol = c(26, 24, 27, 25, 24, 26, 28, 25, 27, 24, 26, 25, 23, 28, 24),
+  Qualidade_Sono = c(6.5, 7.2, 6.8, 7.0, 7.5, 6.9, 6.4, 7.3, 6.6, 7.1, 6.7, 7.4, 7.0, 6.8, 7.6)
 )
 
 # Matriz de correlação
@@ -131,7 +131,7 @@ print(resultado_q3)
 dados_q4 <- data.frame(
   Variedade = c("A", "B", "C", "D", "A", "B", "C", "D", "A", "B", "C", "D"),
   Altura_Plantas = c(45.2, 46.5, 47.0, 42.1, 43.0, 42.5, 50.1, 49.8, 51.2, 40.5, 41.0, 40.8),
-  Numero_Frutos = c(15, 14, 16, 12, 13, 17, 18, 16, 10, 10, 9, 8)
+  Numero_Frutos = c(15, 14, 16, 12, 13, 11, 17, 18, 16, 10, 9, 8)
 )
 
 # MANOVA
