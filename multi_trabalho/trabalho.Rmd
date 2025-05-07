@@ -1,0 +1,156 @@
+---
+title: "Trabalho Multivariada"
+author: "Thiago Tavares Lopes"
+date: "2025-05-07"
+output: pdf_document
+---
+
+```{r, include=FALSE}
+library(FactoMineR)
+library(factoextra)
+```
+
+```{r, include=FALSE}
+dados <- data.frame(
+  local = c("nascente", "nascente", "nascente", "nascente",
+            "rural", "rural", "rural", "rural",
+            "urbana", "urbana", "urbana", "urbana"),
+  ph = c(4.5, 3.5, 4.5, 3.5, 5.8, 5.5, 5.0, 4.5, 6.5, 7.0, 6.8, 6.0),
+  N = c(1.2, 1.3, 1.2, 1.3, 1.2, 1.1, 1.3, 1.2, 2.1, 1.8, 1.5, 1.5),
+  Oxig = c(0.5, 0.5, 0.6, 0.7, 0.5, 0.4, 0.5, 0.3, 0.4, 0.5, 0.5, 0.4),
+  M_Org = c(5.5, 5.2, 5.3, 5.4, 5.2, 5.4, 5.5, 5.8, 8.2, 8.3, 8.4, 8.5)
+)
+```
+
+
+
+```{r, include=FALSE}
+res.pca<-PCA(dados[,-1], graph=F)
+value<-get_eig(res.pca)
+res.pca$var$cor
+
+```
+
+
+\subsection*{Análise de Componentes Principais (PCA)}
+
+A análise de componentes principais foi realizada sobre quatro variáveis quantitativas (\textit{pH}, \textit{N}, \textit{Oxig} e \textit{M\_Org}), utilizando a matriz de correlação. A Tabela \ref{tab:eigen} apresenta os autovalores e a variância explicada por cada componente.
+
+\begin{table}[h!]
+\centering
+\caption{Autovalores e variância explicada}
+\label{tab:eigen}
+\begin{tabular}{lccc}
+\hline
+Componente & Autovalor & \% Variância Explicada & \% Acumulada \\
+\hline
+Dimensão 1 & 2.63 & 65.78\% & 65.78\% \\
+Dimensão 2 & 0.90 & 22.58\% & 88.36\% \\
+Dimensão 3 & 0.33 & 8.24\%  & 96.60\% \\
+Dimensão 4 & 0.14 & 3.40\%  & 100.00\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Observa-se que as duas primeiras componentes principais explicam juntas aproximadamente 88,36\% da variância total dos dados, o que indica que uma boa parte da informação original pode ser representada em um espaço bidimensional.
+
+A Tabela \ref{tab:correlacoes} mostra a correlação das variáveis originais com os componentes principais. A Dimensão 1 apresenta forte correlação positiva com \textit{M.Org} ($r=0,94$), \textit{pH} ($r=0,90$) e \textit{N} ($r=0,86$), enquanto a Dimensão 2 se associa fortemente à variável \textit{Oxig} ($r=0,88$).
+
+\begin{table}[h!]
+\centering
+\caption{Correlação das variáveis com os componentes principais}
+\label{tab:correlacoes}
+\begin{tabular}{lcccc}
+\hline
+Variável & Dim.1 & Dim.2 & Dim.3 & Dim.4 \\
+\hline
+pH       & 0.90  & -0.03 & 0.42  & 0.15  \\
+N        & 0.86  & 0.33  & -0.36 & 0.16  \\
+Oxig     & -0.45 & 0.88  & 0.15  & -0.01 \\
+M\_Org   & 0.94  & 0.15  & 0.00  & -0.29 \\
+\hline
+\end{tabular}
+\end{table}
+
+Com base nesses resultados, conclui-se que a primeira dimensão representa um gradiente de qualidade ambiental relacionado a acidez e matéria orgânica, enquanto a segunda está mais associada à presença de oxigênio dissolvido.
+
+
+
+
+```{r, echo=FALSE}
+####gráfico screeplot
+fviz_eig(res.pca, addlabels = T, ylim=c(0,90))
+```
+\subsection*{Análise do Gráfico de Scree Plot}
+
+O gráfico de scree plot apresentado na Figura~\ref{fig:screeplot} exibe a proporção da variância explicada por cada componente principal (PC) obtido na análise. 
+
+\begin{itemize}
+    \item A \textbf{Dimensão 1} explica \textbf{65,8\%} da variância total dos dados, indicando que uma grande parte da estrutura dos dados é capturada por esse componente.
+    \item A \textbf{Dimensão 2} adiciona mais \textbf{22,6\%} à explicação, totalizando aproximadamente \textbf{88,4\%} da variância explicada pelas duas primeiras componentes.
+    \item As \textbf{Dimensões 3 e 4} contribuem com apenas \textbf{8,2\%} e \textbf{3,4\%}, respectivamente, o que evidencia uma queda acentuada após a segunda componente.
+\end{itemize}
+
+Essa queda abrupta na variância explicada no gráfico em questão, sugere que os dois primeiros componentes são suficientes para representar a maior parte da informação dos dados.
+
+```{r, echo=FALSE}
+### Grafico dos CP
+fviz_pca_var(res.pca)
+```
+\subsection*{Análise do Gráfico de Correlação das Variáveis}
+
+A Figura apresenta o gráfico de correlação que mostra a projeção das variáveis originais sobre o plano definido pelas duas primeiras componentes principais (Dim.1 e Dim.2), responsáveis por  88,4\% da variância total dos dados (65,8\% e 22,6\%, respectivamente).
+
+
+\textbf{Interpretação dos eixos:}
+\begin{itemize}
+    \item O eixo horizontal (\textbf{Dim.1}) está fortemente associado às variáveis \textit{pH}, \textit{N} e \textit{M\_Org}, representando um gradiente relacionado à acidez da água e à presença de matéria orgânica.
+    \item O eixo vertical (\textbf{Dim.2}) está altamente correlacionado com a variável \textit{Oxig}, indicando uma direção de variação independente das demais variáveis.
+\end{itemize}
+
+\textbf{Distribuição e relações entre as variáveis:}
+\begin{itemize}
+    \item As variáveis \textit{pH}, \textit{N} e \textit{M\_Org} aparecem agrupadas e apontam em direção semelhante, com ângulos pequenos entre si, sugerindo correlação positiva mútua e associação com a Dim.1.
+    \item A variável \textit{Oxig} está orientada aproximadamente na direção da Dim.2, com ângulo obtuso em relação às demais variáveis, o que indica correlação negativa moderada com elas e forte contribuição para a segunda dimensão.
+\end{itemize}
+
+```{r, echo=FALSE}
+### Biplot (CP e Individuos)
+fviz_pca_biplot(res.pca,addEllipses = T)
+
+```
+\subsection*{Análise do Biplot da Análise de Componentes Principais (PCA)}
+
+A Figura apresenta o \textit{biplot} da Análise de Componentes Principais (PCA), no qual são representadas simultaneamente as observações (pontos numerados de 1 a 12) e as variáveis originais (\textit{pH}, \textit{N}, \textit{Oxig}, \textit{M\_Org}) projetadas no plano formado pelas duas primeiras componentes principais.
+
+
+
+As duas primeiras componentes principais explicam juntas  \textbf{88,4\%} da variância total dos dados (\textbf{65,8\%} para a Dim.1 e \textbf{22,6\%} para a Dim.2), permitindo uma representação adequada dos dados em duas dimensões.
+
+\textbf{Interpretação das variáveis:}
+\begin{itemize}
+    \item As variáveis \textit{pH}, \textit{N} e \textit{M\_Org} estão fortemente associadas à Dimensão 1, apontando para a direita, o que indica correlação positiva com esse eixo.
+    \item A variável \textit{Oxig} está direcionada para cima, caracterizando forte correlação com a Dimensão 2 e pouca relação com a Dimensão 1, o que sugere independência em relação às demais variáveis.
+\end{itemize}
+
+\textbf{Interpretação das observações:}
+\begin{itemize}
+    \item As observações \textbf{9, 10 e 11} encontram-se na extremidade direita do gráfico, indicando maiores valores de \textit{pH}, \textit{N} e \textit{M\_Org}, possivelmente associadas ao ambiente \textbf{urbano}.
+    \item As observações \textbf{1 a 4} estão mais à esquerda, apresentando baixos valores dessas variáveis, características típicas da \textbf{nascente}.
+    \item A observação \textbf{8}, posicionada na parte inferior do gráfico, apresenta baixa contribuição de todas as variáveis, podendo indicar um perfil atípico, possivelmente relacionado ao ambiente \textbf{rural}.
+\end{itemize}
+
+\textbf{Conclusão:} o biplot permite observar claramente a separação das amostras com base nas características físico-químicas da água. As amostras urbanas tendem a se agrupar em uma região de altos valores de pH, nitrogênio e matéria orgânica, enquanto as amostras de nascente se distinguem por concentrações menores. A variável \textit{Oxig} se destaca como fator adicional de diferenciação no eixo vertical.
+
+```{r, echo=FALSE}
+res.pca <- PCA(dados, quali.sup = 1, graph = FALSE)  # primeira coluna = 'local'
+
+# Agora o biplot com elipses por grupo funciona
+fviz_pca_biplot(res.pca,
+                label = "var",
+                habillage = 1,         # '1' porque 'local' é a 1ª coluna
+                addEllipses = TRUE,
+                palette = "jco",
+                repel = TRUE)
+```
+
