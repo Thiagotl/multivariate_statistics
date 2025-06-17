@@ -68,8 +68,9 @@ a
 mu1<-c(10,12)
 mu2<-c(13,10)
 
-sigma<-matrix(c(1,3,3,16),nrow = 2
-              , byrow = TRUE)
+sigma<-matrix (c(1, 3,
+                 3, 16),
+              nrow = 2, byrow = TRUE)
 
 x<-c(9.32, 12.34)
 
